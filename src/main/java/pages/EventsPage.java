@@ -7,6 +7,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import pages.elements.EventSpeaker;
 import pages.elements.PastEventCard;
+import pages.elements.UpcomingEventCard;
 import utils.Helpers;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class EventsPage extends CommonElements {
     private final static String URL = "https://events.epam.com/events";
 
     public List<PastEventCard> pastCards = new ArrayList<PastEventCard>();
+    public List<UpcomingEventCard> upcomingEventCards = new ArrayList<UpcomingEventCard>();
 
     @FindBy(xpath = "//div[contains(@class,'event-card')]")
     private List<WebElement> plates;
@@ -34,6 +36,7 @@ public class EventsPage extends CommonElements {
     private WebElement pastEventsBtn;
 
 //    Локаторы карточек мероприятий
+    private final By eventFormatLocator = By.cssSelector("div.evnt-event-details-table p:not(.language) span");
     private final By eventNameLocator = By.cssSelector("div.evnt-event-name span");
     private final By eventLanguageLocator = By.cssSelector("p.language > span");
     private final By eventDatesLocator = By.cssSelector("div.evnt-event-dates-table span:first-child");
@@ -87,7 +90,7 @@ public class EventsPage extends CommonElements {
     }
 
     public EventsPage collectPastCards(){
-//        Явное ожидание для гарантии закрузки всех карточек
+//        Явное ожидание для гарантии загрузки всех карточек
         waitForLoading();
         logger.info("Старт процедуры сбора информации с карточек прошедших событий");
 //        Собираем атрибуты карточек в списки
@@ -131,7 +134,32 @@ public class EventsPage extends CommonElements {
     }
 
     public EventsPage collectUpcomingCards(){
-//        TODO реализовать код сбора информации с карточек предстоящих событий
+//        Явное ожидание для гарантии загрузки всех карточек
+        waitForLoading();
+        logger.info("Старт процедуры сбора информации с карточек прошедших событий");
+//        Собираем атрибуты карточек в списки
+        List<WebElement> formats = driver.findElements(eventFormatLocator);
+        List<WebElement> names = driver.findElements(eventNameLocator);
+        List<WebElement> langs = driver.findElements(eventLanguageLocator);
+        List<WebElement> dates = driver.findElements(eventDatesLocator);
+        List<WebElement> regs = driver.findElements(eventRegInfoLocator);
+
+//        Создаем список объектов карточек
+        for(int i = 0; i < names.size(); i++){
+            UpcomingEventCard card = new UpcomingEventCard();
+            card.setFormat(formats.get(i).getText());
+            card.setName(names.get(i).getText());
+            card.setLang(langs.get(i).getText());
+//            Переводим строку в дату
+            Date date = Helpers.parseStringToDate(dates.get(i).getText());
+            card.setDate(date);
+            card.setRegInfo(regs.get(i).getText());
+            upcomingEventCards.add(card);
+        }
+        logger.info("Процедура сбора информации с карточек прошедших событий завершена");
+        for(UpcomingEventCard card:upcomingEventCards)
+            logger.debug(card.toString());
+
         return this;
     }
 }
