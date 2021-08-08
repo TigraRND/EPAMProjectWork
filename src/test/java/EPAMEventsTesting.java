@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import pages.EventsPage;
 import pages.elements.PastEventCard;
+import pages.elements.UpcomingEventCard;
 import utils.Argumentator;
 import utils.Helpers;
 import utils.TestsData;
@@ -74,21 +75,20 @@ public class EPAMEventsTesting {
 
     @Test(testName = "Проверка дат предстоящих событий", enabled = true)
     public void checkUpcomingEventsData() {
-//        EventsPage eventsPage = new EventsPage(driver);
-//        eventsPage
-//                .goToPage()
-//                .turnUpcomingEvents();
-//        Parser parser = new Parser();
-//        List<DateGroup> groups = parser.parse("1 Feb - 25 Aug 2025");
-//        for(DateGroup group:groups) {
-//            List <Date> dates = group.getDates();
-//            logger.debug(dates.get(dates.size() - 1));
-//        }
+        EventsPage eventsPage = new EventsPage(driver);
+        eventsPage
+                .goToPage()
+                .turnUpcomingEvents()
+                .collectUpcomingCards();
         Date today = Helpers.parseStringToDate("today");
-        Date eventDate = Helpers.parseStringToDate("1 Feb - 25 Aug 2025");
-        boolean check = false;
-        if (eventDate.after(today))
-            check = true;
-        Assert.assertTrue(check, "Дата события не позже текущей");
+        logger.info("Сравнение дат предстоящих событий с текуще датой: " + today);
+        for(UpcomingEventCard card:eventsPage.upcomingEventCards){
+            logger.info(String.format("Сравнение даты %s события №%s с текущей",card.getDate(), eventsPage.upcomingEventCards.indexOf(card)));
+            boolean check = false;
+            if (card.getDate().after(today))
+                check = true;
+            softAssert.assertTrue(check, "Дата события не позже текущей");
+        }
+        softAssert.assertAll();
     }
 }
