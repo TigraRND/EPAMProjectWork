@@ -41,7 +41,7 @@ public class EPAMEventsTesting {
         }
     }
 
-    @Test(testName = "Проверка счетчика предстоящих событий", enabled = true)
+    @Test(testName = "Проверка счетчика предстоящих событий", enabled = false)
     public void checkUpcomingEventsCounter() {
         EventsPage eventsPage = new EventsPage(driver);
         eventsPage
@@ -54,7 +54,7 @@ public class EPAMEventsTesting {
         Assert.assertEquals(realNumOfCards, counterValue);
     }
 
-    @Test(testName = "Проверка карточек прошедших событий", enabled = true)
+    @Test(testName = "Проверка карточек прошедших событий", enabled = false)
     public void checkPastCards(){
         EventsPage eventsPage = new EventsPage(driver);
         eventsPage
@@ -73,7 +73,7 @@ public class EPAMEventsTesting {
         softAssert.assertAll();
     }
 
-    @Test(testName = "Проверка дат предстоящих событий", enabled = true)
+    @Test(testName = "Валидация дат предстоящих мероприятий", enabled = false)
     public void checkUpcomingEventsData() {
         EventsPage eventsPage = new EventsPage(driver);
         eventsPage
@@ -83,12 +83,42 @@ public class EPAMEventsTesting {
         Date today = Helpers.parseStringToDate("today");
         logger.info("Сравнение дат предстоящих событий с текуще датой: " + today);
         for(UpcomingEventCard card:eventsPage.upcomingEventCards){
-            logger.info(String.format("Сравнение даты %s события №%s с текущей",card.getDate(), eventsPage.upcomingEventCards.indexOf(card)));
+            logger.info(String.format("Сравнение даты %s события %s с текущей",card.getDate(), card.getName()));
             boolean check = false;
             if (card.getDate().after(today))
                 check = true;
             softAssert.assertTrue(check, "Дата события не позже текущей");
         }
+        softAssert.assertAll();
+    }
+
+    @Test(testName = "Просмотр прошедших мероприятий в Сербии", enabled = true)
+    public void checkEventInCanada(){
+        EventsPage eventsPage = new EventsPage(driver);
+        eventsPage
+                .goToPage()
+                .turnPastEvents()
+                .filterByLocation("Serbia")
+                .collectPastCards();
+
+//        Проверка счетчика
+        int realNumOfCards = eventsPage.pastCards.size();
+        logger.info("Количество карточек прошедших событий на странице: " + realNumOfCards);
+        int counterValue = eventsPage.getCountOfPastEvents();
+        logger.info("Сравнение значений");
+        softAssert.assertEquals(realNumOfCards,counterValue);
+
+//        Проверка даты
+        Date today = Helpers.parseStringToDate("today");
+        logger.info("Сравнение дат предстоящих событий с текуще датой: " + today);
+        for(PastEventCard card:eventsPage.pastCards){
+            logger.info(String.format("Сравнение даты %s события %s с текущей",card.getDate(), card.getName()));
+            boolean check = false;
+            if (card.getDate().before(today))
+                check = true;
+            softAssert.assertTrue(check, "Дата события не позже текущей");
+        }
+
         softAssert.assertAll();
     }
 }
