@@ -129,4 +129,9 @@ public class EventsPage extends CommonElements {
 
         return this;
     }
+
+    public EventsPage collectUpcomingCards(){
+//        TODO реализовать код сбора информации с карточек предстоящих событий
+        return this;
+    }
 }

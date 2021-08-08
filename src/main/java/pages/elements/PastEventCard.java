@@ -1,47 +1,10 @@
 package pages.elements;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-public class PastEventCard {
-    private String lang;
-    private String name;
-    private Date date;
-    private String regInfo;
+public class PastEventCard extends AbstractCard {
     private List<EventSpeaker> speakers = new ArrayList<EventSpeaker>();
-
-    public String getLang() {
-        return lang;
-    }
-
-    public void setLang(String lang) {
-        this.lang = lang;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public String getRegInfo() {
-        return regInfo;
-    }
-
-    public void setRegInfo(String regInfo) {
-        this.regInfo = regInfo;
-    }
 
     public List<EventSpeaker> getSpeakers() {
         return speakers;
@@ -61,6 +24,6 @@ public class PastEventCard {
         for (EventSpeaker speaker:speakers){
             stringOfSpeakers = stringOfSpeakers + speaker.toString() + "; ";
         }
-        return String.format("\nСобытие: %s\nЯзык: %s\nДата: %s\nРегистрация: %s\n%s",name,lang,date,regInfo,stringOfSpeakers);
+        return super.toString() + "\n" + stringOfSpeakers;
     }
 }
