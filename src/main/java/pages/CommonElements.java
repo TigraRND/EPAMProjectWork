@@ -6,12 +6,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public abstract class CommonElements {
     protected static WebDriver driver;
     final Logger logger = LogManager.getLogger(CommonElements.class);
+    private final By loader = By.xpath("//div[contains(@class,'loader')]");
 
     @FindBy(css = "a.nav-link[href='/calendar']")
     private WebElement calendarBtn;
@@ -24,6 +26,7 @@ public abstract class CommonElements {
 
     public CommonElements(WebDriver driver){
         CommonElements.driver = driver;
+        PageFactory.initElements(this.driver,this);
     }
 
 //    Поиск элемента через явное ожидание
@@ -32,8 +35,16 @@ public abstract class CommonElements {
                 .until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
+//    Ожидание загрузки страницы
+    public CommonElements waitForLoading(){
+        new WebDriverWait(driver,10)
+                .until(ExpectedConditions.invisibilityOfElementLocated(loader));
+        return this;
+    }
+
     public EventsPage clickEventsBtn(){
         eventsBtn.click();
+        waitForLoading();
         logger.info("Переход на страницу Events");
         return new EventsPage(driver);
     }

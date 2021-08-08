@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Helpers {
 
-    public static Date stringToDateParser(String input, int num){
+    public static Date parseStringToDate(String input, int num){
         Parser parser = new Parser();
         List<Date> dates = null;
         List<DateGroup> groups = parser.parse(input);
@@ -18,7 +18,7 @@ public class Helpers {
         return dates.get(num);
     }
 
-    public static Date stringToDateParser(String input){
+    public static Date parseStringToDate(String input){
         Parser parser = new Parser();
         List<Date> dates = null;
         List<DateGroup> groups = parser.parse(input);

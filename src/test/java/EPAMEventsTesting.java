@@ -36,14 +36,23 @@ public class EPAMEventsTesting {
         }
     }
 
-    @Test(testName = "Проверка счетчика предстоящих событий")
+    @Test(testName = "Проверка счетчика предстоящих событий", enabled = false)
     public void checkUpcomingEventsCounter() {
         EventsPage eventsPage = new EventsPage(driver);
         eventsPage.goToPage();
         Assert.assertEquals(eventsPage.getRealCountOfPlates(), eventsPage.getCountOfUpcomingEvents());
     }
 
+    @Test(testName = "Проверка карточек прошедших событий", enabled = true)
+    public void checkPastCards(){
+        EventsPage eventsPage = new EventsPage(driver);
+        eventsPage
+                .goToPage()
+                .turnPastEvents()
+                .collectPastCards();
 
+//        logger.debug(eventsPage.pastCards.size());
+    }
 
 //    @Test(testName = "Проверка дат предстоящих событий")
     public void checkUpcomingEventsData() {
@@ -57,8 +66,8 @@ public class EPAMEventsTesting {
 //            List <Date> dates = group.getDates();
 //            logger.debug(dates.get(dates.size() - 1));
 //        }
-        Date today = Helpers.stringToDateParser("today");
-        Date eventDate = Helpers.stringToDateParser("1 Feb - 25 Aug 2025");
+        Date today = Helpers.parseStringToDate("today");
+        Date eventDate = Helpers.parseStringToDate("1 Feb - 25 Aug 2025");
         boolean check = false;
         if (eventDate.after(today))
             check = true;
