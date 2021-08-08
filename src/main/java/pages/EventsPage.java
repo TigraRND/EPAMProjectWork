@@ -89,6 +89,7 @@ public class EventsPage extends CommonElements {
     public EventsPage collectPastCards(){
 //        Явное ожидание для гарантии закрузки всех карточек
         waitForLoading();
+        logger.info("Старт процедуры сбора информации с карточек прошедших событий");
 //        Собираем атрибуты карточек в списки
         List<WebElement> names = driver.findElements(eventNameLocator);
         List<WebElement> langs = driver.findElements(eventLanguageLocator);
@@ -122,9 +123,9 @@ public class EventsPage extends CommonElements {
                 card.addSpeaker(speakerObj);
             }
         }
-
-        for(PastEventCard card:pastCards)
-            logger.debug(card.toString());
+        logger.info("Процедура сбора информации с карточек прошедших событий завершена");
+//        for(PastEventCard card:pastCards)
+//            logger.debug(card.toString());
 
         return this;
     }

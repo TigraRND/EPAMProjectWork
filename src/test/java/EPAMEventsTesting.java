@@ -8,6 +8,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import pages.EventsPage;
+import pages.elements.PastEventCard;
 import utils.Argumentator;
 import utils.Helpers;
 import utils.TestsData;
@@ -36,7 +37,7 @@ public class EPAMEventsTesting {
         }
     }
 
-    @Test(testName = "Проверка счетчика предстоящих событий", enabled = false)
+    @Test(testName = "Проверка счетчика предстоящих событий", enabled = true)
     public void checkUpcomingEventsCounter() {
         EventsPage eventsPage = new EventsPage(driver);
         eventsPage.goToPage();
@@ -50,11 +51,19 @@ public class EPAMEventsTesting {
                 .goToPage()
                 .turnPastEvents()
                 .collectPastCards();
-
-//        logger.debug(eventsPage.pastCards.size());
+        for(PastEventCard card:eventsPage.pastCards){
+            int cardNum = eventsPage.pastCards.indexOf(card) + 1;
+            logger.info("Проверка что значение карточки " + cardNum + " не равно null");
+            softAssert.assertNotNull(card.getName());
+            softAssert.assertNotNull(card.getLang());
+            softAssert.assertNotNull(card.getDate());
+            softAssert.assertNotNull(card.getRegInfo());
+            softAssert.assertNotNull(card.getSpeakers());
+        }
+        softAssert.assertAll();
     }
 
-//    @Test(testName = "Проверка дат предстоящих событий")
+    @Test(testName = "Проверка дат предстоящих событий", enabled = false)
     public void checkUpcomingEventsData() {
 //        EventsPage eventsPage = new EventsPage(driver);
 //        eventsPage
