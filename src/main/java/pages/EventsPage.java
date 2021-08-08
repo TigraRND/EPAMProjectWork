@@ -55,14 +55,6 @@ public class EventsPage extends CommonElements {
         return this;
     }
 
-    public int getRealCountOfPlates(){
-        waitForLoading();
-//        Получение количества найденых элементов
-        int cardsCount = plates.size();
-        logger.info("Количество карточек событий на странице: " + cardsCount);
-        return cardsCount;
-    }
-
     public int getCountOfUpcomingEvents(){
         int counterValue = Integer.parseInt(upcomingEventsCounter.getText());
         logger.info("Количество предстоящих событий по счетчику: " + counterValue);
@@ -76,8 +68,8 @@ public class EventsPage extends CommonElements {
     }
 
     public EventsPage turnUpcomingEvents(){
-        waitForLoading();
         upcomingEventsBtn.click();
+        waitForLoading();
         logger.info("Переключение на вкладку предстоящие события");
         return this;
     }
@@ -153,12 +145,16 @@ public class EventsPage extends CommonElements {
 //            Переводим строку в дату
             Date date = Helpers.parseStringToDate(dates.get(i).getText());
             card.setDate(date);
-            card.setRegInfo(regs.get(i).getText());
+            try{
+                card.setRegInfo(regs.get(i).getText());
+            }catch (IndexOutOfBoundsException e){
+                logger.warn("Нет значения для присваивания");
+            }
             upcomingEventCards.add(card);
         }
         logger.info("Процедура сбора информации с карточек прошедших событий завершена");
-        for(UpcomingEventCard card:upcomingEventCards)
-            logger.debug(card.toString());
+//        for(UpcomingEventCard card:upcomingEventCards)
+//            logger.debug(card.toString());
 
         return this;
     }

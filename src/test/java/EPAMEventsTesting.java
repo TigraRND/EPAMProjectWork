@@ -43,8 +43,11 @@ public class EPAMEventsTesting {
     @Test(testName = "Проверка счетчика предстоящих событий", enabled = true)
     public void checkUpcomingEventsCounter() {
         EventsPage eventsPage = new EventsPage(driver);
-        eventsPage.goToPage();
-        int realNumOfCards = eventsPage.getRealCountOfPlates();
+        eventsPage
+                .goToPage()
+                .collectUpcomingCards();
+        int realNumOfCards = eventsPage.upcomingEventCards.size();
+        logger.info("Количество карточек предстоящих событий на странице: " + realNumOfCards);
         int counterValue = eventsPage.getCountOfUpcomingEvents();
         logger.info("Сравнение значений");
         Assert.assertEquals(realNumOfCards, counterValue);
@@ -69,7 +72,7 @@ public class EPAMEventsTesting {
         softAssert.assertAll();
     }
 
-    @Test(testName = "Проверка дат предстоящих событий", enabled = false)
+    @Test(testName = "Проверка дат предстоящих событий", enabled = true)
     public void checkUpcomingEventsData() {
 //        EventsPage eventsPage = new EventsPage(driver);
 //        eventsPage
