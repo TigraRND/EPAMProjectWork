@@ -33,7 +33,10 @@ public class EPAMEventsTesting {
     public void shutDown() {
         if (driver != null) {
             driver.quit();
-            logger.info("WebDriver закрыт");
+            String stars = "";
+            for(int i = 0; i < 141; i++)
+                stars += "*";
+            logger.info("WebDriver закрыт\n" + stars);
         }
     }
 
@@ -41,7 +44,10 @@ public class EPAMEventsTesting {
     public void checkUpcomingEventsCounter() {
         EventsPage eventsPage = new EventsPage(driver);
         eventsPage.goToPage();
-        Assert.assertEquals(eventsPage.getRealCountOfPlates(), eventsPage.getCountOfUpcomingEvents());
+        int realNumOfCards = eventsPage.getRealCountOfPlates();
+        int counterValue = eventsPage.getCountOfUpcomingEvents();
+        logger.info("Сравнение значений");
+        Assert.assertEquals(realNumOfCards, counterValue);
     }
 
     @Test(testName = "Проверка карточек прошедших событий", enabled = true)
