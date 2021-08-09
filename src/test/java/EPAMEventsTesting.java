@@ -92,13 +92,13 @@ public class EPAMEventsTesting {
         softAssert.assertAll();
     }
 
-    @Test(testName = "Просмотр прошедших мероприятий в Сербии", enabled = true)
+    @Test(testName = "Просмотр прошедших мероприятий в Канаде", enabled = true)
     public void checkEventInCanada(){
         EventsPage eventsPage = new EventsPage(driver);
         eventsPage
                 .goToPage()
                 .turnPastEvents()
-                .filterByLocation("Serbia")
+                .filterByLocation("Canada")
                 .collectPastCards();
 
 //        Проверка счетчика

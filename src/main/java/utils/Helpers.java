@@ -8,20 +8,14 @@ import java.util.List;
 
 public class Helpers {
 
-    public static Date parseStringToDate(String input, int num){
-        Parser parser = new Parser();
-        List<Date> dates = null;
-        List<DateGroup> groups = parser.parse(input);
-        for(DateGroup group:groups) {
-            dates = group.getDates();
-        }
-        return dates.get(num);
-    }
-
     public static Date parseStringToDate(String input){
+//        Отрезаем первую дату, оставляем только последнюю
+        String[] inputArray = input.split("-");
+        String processedText = inputArray[inputArray.length - 1];
+//        Парсим дату из строки
         Parser parser = new Parser();
         List<Date> dates = null;
-        List<DateGroup> groups = parser.parse(input);
+        List<DateGroup> groups = parser.parse(processedText);
         for(DateGroup group:groups) {
             dates = group.getDates();
         }
