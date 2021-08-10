@@ -13,7 +13,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public abstract class CommonElements {
     protected static WebDriver driver;
     final Logger logger = LogManager.getLogger(CommonElements.class);
-    private final By loader = By.xpath("//div[contains(@class,'loader')]");
+    private final By loader = By.xpath("//div[contains(@class,'evnt-loader')]");
 
     @FindBy(css = "a.nav-link[href='/calendar']")
     private WebElement calendarBtn;
@@ -47,5 +47,12 @@ public abstract class CommonElements {
         waitForLoading();
         logger.info("Переход на страницу Events");
         return new EventsPage(driver);
+    }
+
+    public VideoPage clickVideoBtn(){
+        videoBtn.click();
+        waitForLoading();
+        logger.info("Переход на страницу с видео");
+        return new VideoPage(driver);
     }
 }

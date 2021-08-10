@@ -8,6 +8,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import pages.EventsPage;
+import pages.MainPage;
+import pages.VideoPage;
 import pages.elements.PastEventCard;
 import pages.elements.UpcomingEventCard;
 import utils.Argumentator;
@@ -92,7 +94,7 @@ public class EPAMEventsTesting {
         softAssert.assertAll();
     }
 
-    @Test(testName = "Просмотр прошедших мероприятий в Канаде", enabled = true)
+    @Test(testName = "Просмотр прошедших мероприятий в Канаде", enabled = false)
     public void checkEventInCanada(){
         EventsPage eventsPage = new EventsPage(driver);
         eventsPage
@@ -120,5 +122,14 @@ public class EPAMEventsTesting {
         }
 
         softAssert.assertAll();
+    }
+
+    @Test(testName = "Фильтрация докладов по категориям", enabled = true)
+    public void checkFilteringOfTalks(){
+        MainPage mainPage = new MainPage(driver);
+        VideoPage videoPage = mainPage
+                .goToPage()
+                .clickVideoBtn()
+                .clickMoreFilters();
     }
 }
