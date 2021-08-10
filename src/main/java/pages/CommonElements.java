@@ -24,6 +24,15 @@ public abstract class CommonElements {
     @FindBy(css = "a.nav-link[href^='/video']")
     private WebElement videoBtn;
 
+    @FindBy(css = "div[href='#collapseMoreFilters']")
+    private WebElement moreFiltersBtn;
+
+    @FindBy(css = "input[placeholder='Search by Talk Name']")
+    private WebElement searchField;
+
+    private final String filterName = "//span[@class='evnt-filter-text'][text()='%s']";
+    private final String filterValue = "//label[@data-value='%s']";
+
     public CommonElements(WebDriver driver){
         CommonElements.driver = driver;
         PageFactory.initElements(this.driver,this);
@@ -54,5 +63,40 @@ public abstract class CommonElements {
         waitForLoading();
         logger.info("Переход на страницу с видео");
         return new VideoPage(driver);
+    }
+
+    public CommonElements filtration(String name, String value){
+        logger.info("Фильтрация по " + filterName + " со значением " + filterValue);
+//        Построение локатора для списка фильтра
+        String locatorName = String.format(filterName,name);
+//        Клик для раскрытия списка фильтров
+        driver.findElement(By.xpath(locatorName)).click();
+//        Построение локатора для значения фильтра
+        String locatorValue = String.format(filterValue,value);
+//        Клик на элемент списка
+        getElement(By.xpath(locatorValue)).click();
+//        Ожидаем результатов фильтрации
+        waitForLoading();
+//        Клик для закрытия списка фильтров
+        driver.findElement(By.xpath(locatorName)).click();
+        return this;
+    }
+
+    public CommonElements clickMoreFilters(){
+        moreFiltersBtn.click();
+        logger.info("Нажимаем кнопку More filters");
+        return this;
+    }
+
+    public CommonElements searching(String criteria){
+        searchField.sendKeys(criteria);
+//        waitForLoading();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        logger.info("Поиск по ключевому слову " + criteria);
+        return this;
     }
 }

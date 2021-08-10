@@ -2,13 +2,13 @@ import org.aeonbits.owner.ConfigFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import pages.EventsPage;
-import pages.MainPage;
 import pages.VideoPage;
 import pages.elements.PastEventCard;
 import pages.elements.UpcomingEventCard;
@@ -18,6 +18,7 @@ import utils.TestsData;
 import utils.WDFactory;
 
 import java.util.Date;
+import java.util.List;
 
 public class EPAMEventsTesting {
     protected static WebDriver driver;
@@ -100,8 +101,8 @@ public class EPAMEventsTesting {
         eventsPage
                 .goToPage()
                 .turnPastEvents()
-                .filterByLocation("Canada")
-                .collectPastCards();
+                .filtration("Location","Canada");
+        eventsPage.collectPastCards();
 
 //        Проверка счетчика
         int realNumOfCards = eventsPage.pastCards.size();
@@ -124,12 +125,34 @@ public class EPAMEventsTesting {
         softAssert.assertAll();
     }
 
-    @Test(testName = "Фильтрация докладов по категориям", enabled = true)
+    @Test(testName = "Фильтрация докладов по категориям", enabled = false)
     public void checkFilteringOfTalks(){
-        MainPage mainPage = new MainPage(driver);
-        VideoPage videoPage = mainPage
+        VideoPage videoPage = new VideoPage(driver);
+        videoPage
                 .goToPage()
-                .clickVideoBtn()
-                .clickMoreFilters();
+                .clickMoreFilters()
+                .filtration("Category", "Testing")
+                .filtration("Location","Belarus")
+                .filtration("Language","ENGLISH");
+    }
+
+    @Test(testName = "Поиск докладов по ключевому слову",enabled = true)
+    public void checkSearching(){
+        String searchingCriteria = "QA";
+        VideoPage videoPage = new VideoPage(driver);
+        videoPage
+                .goToPage()
+                .searching(searchingCriteria);
+
+        List<WebElement> allNames = videoPage.collectTalksNames();
+        logger.info("Собранные имена со страницы:");
+        for (WebElement talk:allNames){
+            String actual = talk.getText();
+            logger.info(actual);
+            boolean check = Helpers.checkSubstringInString(actual,searchingCriteria);
+            softAssert.assertTrue(check);
+        }
+        logger.info("Сравнение полученных значений");
+        softAssert.assertAll();
     }
 }
