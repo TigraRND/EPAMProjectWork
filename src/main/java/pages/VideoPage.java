@@ -35,12 +35,13 @@ public class VideoPage extends CommonElements {
     }
 
     public int getNumOfCards(){
-        return talksNames.size() + 1;
+        return talksNames.size();
     }
 
-    public void clickTalkCard(int index){
+    public EventInfoPage clickTalkCard(int index){
         By finalLocator = By.xpath(String.format(talkCardLinkSelector,index));
         driver.findElement(finalLocator).click();
         waitForLoading();
+        return new EventInfoPage(driver);
     }
 }

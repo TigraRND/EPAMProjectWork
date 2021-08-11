@@ -8,6 +8,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+import pages.EventInfoPage;
 import pages.EventsPage;
 import pages.VideoPage;
 import pages.elements.PastEventCard;
@@ -33,7 +34,7 @@ public class EPAMEventsTesting {
         driver.manage().window().maximize();
     }
 
-//    @AfterMethod
+    @AfterMethod
     public void shutDown() {
         if (driver != null) {
             driver.quit();
@@ -127,16 +128,43 @@ public class EPAMEventsTesting {
 
     @Test(testName = "Фильтрация докладов по категориям", enabled = true)
     public void checkFilteringOfTalks(){
+        String targetCategory = "Testing";
+        String targetLocation = "Belarus";
+        String targetLanguage = "ENGLISH";
         VideoPage videoPage = new VideoPage(driver);
         videoPage
                 .goToPage()
                 .clickMoreFilters()
-                .filtration("Category", "Testing")
-                .filtration("Location","Belarus")
-                .filtration("Language","ENGLISH");
+                .filtration("Category", targetCategory)
+                .filtration("Location",targetLocation)
+                .filtration("Language",targetLanguage);
+
         int randomCardIndex = Helpers.randomNumInRange(1,videoPage.getNumOfCards());
-        videoPage.clickTalkCard(randomCardIndex);
+        EventInfoPage eventInfoPage = videoPage.clickTalkCard(randomCardIndex);
         logger.info("Переход к карточке №" + randomCardIndex);
+
+        logger.info("Проверка наличия параметра запроса " + targetLocation);
+        logger.debug("Получено значение: " + eventInfoPage.getLocationInfo());
+        boolean checkLocation = Helpers.checkSubstringInString(eventInfoPage.getLocationInfo(),targetLocation);
+        softAssert.assertTrue(checkLocation);
+
+        logger.info("Проверка наличия параметра запроса " + targetLanguage);
+        logger.debug("Получено значение: " + eventInfoPage.getLanguageInfo());
+        boolean checkLanguage = Helpers.checkSubstringInString(eventInfoPage.getLanguageInfo(),targetLanguage);
+        softAssert.assertTrue(checkLanguage);
+
+        logger.info("Проверка наличия параметра запроса " + targetCategory);
+        boolean checkCategory = false;
+        for(WebElement tag:eventInfoPage.getCategories()){
+            logger.debug("Получено значение: " + tag.getText());
+            if(Helpers.checkSubstringInString(tag.getText(), targetCategory)){
+                checkCategory = true;
+                break;
+            }
+        }
+        softAssert.assertTrue(checkCategory);
+
+        softAssert.assertAll();
     }
 
     @Test(testName = "Поиск докладов по ключевому слову",enabled = false)
