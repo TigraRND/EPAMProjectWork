@@ -1,3 +1,4 @@
+import io.qameta.allure.Step;
 import org.aeonbits.owner.ConfigFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,12 +30,14 @@ public class EPAMEventsTesting {
     private final SoftAssert softAssert = new SoftAssert();
 
     @BeforeMethod
+    @Step("Запуск и настройка WebDriver")
     public void startUp() {
         driver = WDFactory.getDriver(arg.getBrowser());
         driver.manage().window().maximize();
     }
 
     @AfterMethod
+    @Step("Закрытие WebDriver")
     public void shutDown() {
         if (driver != null) {
             driver.quit();

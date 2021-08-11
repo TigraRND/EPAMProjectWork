@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -54,6 +55,7 @@ public abstract class CommonElements {
         return this;
     }
 
+    @Step("Нажатие на кнопку Events")
     public EventsPage clickEventsBtn() {
         eventsBtn.click();
         waitForLoading();
@@ -61,6 +63,7 @@ public abstract class CommonElements {
         return new EventsPage(driver);
     }
 
+    @Step("Нажатие на кнопку Video")
     public VideoPage clickVideoBtn() {
         videoBtn.click();
         waitForLoading();
@@ -68,6 +71,7 @@ public abstract class CommonElements {
         return new VideoPage(driver);
     }
 
+    @Step("Фильтрация по {name} со значением {value}")
     public CommonElements filtration(String name, String value) {
         logger.info("Фильтрация по " + name + " со значением " + value);
 //        Построение локатора для списка фильтра
@@ -85,12 +89,14 @@ public abstract class CommonElements {
         return this;
     }
 
+    @Step("Нажатие на кнопку More Filters")
     public CommonElements clickMoreFilters() {
         moreFiltersBtn.click();
         logger.info("Нажимаем кнопку More filters");
         return this;
     }
 
+    @Step("Поиск по ключевому слову {criteria}")
     public CommonElements searching(String criteria) {
         searchField.sendKeys(criteria);
 //        Использован Thread.sleep так как в java скрипте
@@ -105,6 +111,7 @@ public abstract class CommonElements {
         return this;
     }
 
+    @Step("Нажатие на кнопку принят Cookie")
     public void acceptCookie() {
         acceptCookieBtn.click();
     }

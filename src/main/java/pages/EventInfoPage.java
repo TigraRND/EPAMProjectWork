@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -23,14 +24,17 @@ public class EventInfoPage extends CommonElements {
         PageFactory.initElements(this.driver, this);
     }
 
+    @Step("Получение места проведения события")
     public String getLocationInfo() {
         return locationInfo.getText();
     }
 
+    @Step("Получение языка события")
     public String getLanguageInfo() {
         return languageInfo.getText();
     }
 
+    @Step("Получение списка категорий события")
     public List<WebElement> getCategories() {
         return categories;
     }
