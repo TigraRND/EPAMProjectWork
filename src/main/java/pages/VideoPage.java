@@ -14,7 +14,10 @@ public class VideoPage extends CommonElements {
     @FindBy(css = "div.evnt-talk-name span")
     private List<WebElement> talksNames;
 
-    private String talkCardLinkSelector = "(//div[@class='evnt-talk-card']/a)[%d]";
+    @FindBy(xpath = "//div[@class='evnt-talk-card']")
+    private WebElement talkCardLinkFirefox;
+
+    private String talkCardLinkSelectorChrome = "(//div[@class='evnt-talk-card']/a)[%d]";
 
     public VideoPage(WebDriver driver) {
         super(driver);
@@ -38,9 +41,14 @@ public class VideoPage extends CommonElements {
         return talksNames.size();
     }
 
-    public EventInfoPage clickTalkCard(int index){
-        By finalLocator = By.xpath(String.format(talkCardLinkSelector,index));
+    public EventInfoPage clickTalkCardChrome(int index){
+        By finalLocator = By.xpath(String.format(talkCardLinkSelectorChrome,index));
         driver.findElement(finalLocator).click();
+        waitForLoading();
+        return new EventInfoPage(driver);
+    }
+    public EventInfoPage clickTalkCardFirefox(){
+        talkCardLinkFirefox.click();
         waitForLoading();
         return new EventInfoPage(driver);
     }

@@ -71,6 +71,7 @@ public class EventsPage extends CommonElements {
     public EventsPage turnUpcomingEvents(){
         waitForLoading();
         upcomingEventsBtn.click();
+        waitForLoading();
         logger.info("Переключение на вкладку предстоящие события");
         return this;
     }
@@ -78,6 +79,7 @@ public class EventsPage extends CommonElements {
     public EventsPage turnPastEvents(){
         waitForLoading();
         pastEventsBtn.click();
+        waitForLoading();
         logger.info("Переключение на вкладку прошедшие события");
         return this;
     }

@@ -140,7 +140,8 @@ public class EPAMEventsTesting {
                 .filtration("Language",targetLanguage);
 
         int randomCardIndex = Helpers.randomNumInRange(1,videoPage.getNumOfCards());
-        EventInfoPage eventInfoPage = videoPage.clickTalkCard(randomCardIndex);
+        EventInfoPage eventInfoPage = videoPage.clickTalkCardChrome(randomCardIndex);
+//        EventInfoPage eventInfoPage = videoPage.clickTalkCardFirefox();
         logger.info("Переход к карточке №" + randomCardIndex);
 
         logger.info("Проверка наличия параметра запроса " + targetLocation);
