@@ -31,4 +31,8 @@ public class Helpers {
             return true;
         }
     }
+
+    public static int randomNumInRange(int start, int end){
+        return start + (int)(Math.random() * end);
+    }
 }

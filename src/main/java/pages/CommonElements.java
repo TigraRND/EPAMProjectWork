@@ -90,7 +90,9 @@ public abstract class CommonElements {
 
     public CommonElements searching(String criteria){
         searchField.sendKeys(criteria);
-//        waitForLoading();
+//        Использован Thread.sleep так как в java скрипте
+//        так же используется задержка после ввода прежде
+//        чем начнется фильтрация
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
