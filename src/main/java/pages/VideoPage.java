@@ -5,28 +5,41 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import pages.CommonElements;
+
+import java.util.List;
 
 public class VideoPage extends CommonElements {
     private static final String URL = "https://events.epam.com/video?f%5B0%5D%5Bmedia%5D%5B%5D=Video";
 
-    @FindBy(css = "div[href='#collapseMoreFilters']")
-    private WebElement moreFiltersBtn;
+    @FindBy(css = "div.evnt-talk-name span")
+    private List<WebElement> talksNames;
 
-    @FindBy(xpath = "//span[@class='evnt-filter-text'][text()='Location']")
-    private WebElement filterLocation;
-
-    private final String locationValue = "//label[@data-value='%s']";
-    private final String talkNamesLocator = "div.evnt-talk-name span";
-
+    private String talkCardLinkSelector = "(//div[@class='evnt-talk-card']/a)[%d]";
 
     public VideoPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(this.driver,this);
     }
 
-    public VideoPage clickMoreFilters(){
-        moreFiltersBtn.click();
+    public VideoPage goToPage(){
+        driver.get(URL);
+        waitForLoading();
+        logger.info("Переход на страницу Video");
         return this;
+    }
+
+    public List<WebElement> collectTalksNames(){
+        logger.info("Сбор названий Talks");
+        return talksNames;
+    }
+
+    public int getNumOfCards(){
+        return talksNames.size();
+    }
+
+    public void clickTalkCard(int index){
+        By finalLocator = By.xpath(String.format(talkCardLinkSelector,index));
+        driver.findElement(finalLocator).click();
+        waitForLoading();
     }
 }

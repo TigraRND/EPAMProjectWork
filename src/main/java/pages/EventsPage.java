@@ -35,10 +35,6 @@ public class EventsPage extends CommonElements {
     @FindBy(xpath = "//span[contains(text(),'Past')]/parent::a")
     private WebElement pastEventsBtn;
 
-    @FindBy(xpath = "//span[@class='evnt-filter-text'][text()='Location']")
-    private WebElement filterLocation;
-    private final String locationValue = "//label[@data-value='%s']";
-
 //    Локаторы карточек мероприятий
     private final By eventFormatLocator = By.cssSelector("div.evnt-event-details-table p:not(.language) span");
     private final By eventNameLocator = By.cssSelector("div.evnt-event-name span");
@@ -82,21 +78,6 @@ public class EventsPage extends CommonElements {
         waitForLoading();
         pastEventsBtn.click();
         logger.info("Переключение на вкладку прошедшие события");
-        return this;
-    }
-
-    public EventsPage filterByLocation(String location){
-        logger.info("Фильтрация по локации: " + location);
-//        Клик для раскрытия списка фильтров
-        filterLocation.click();
-//        Построение локатора для значения фильтра
-        String locator = String.format(locationValue,location);
-//        Клик на элемент списка
-        getElement(By.xpath(locator)).click();
-//        Ожидаем результатов фильтрации
-        waitForLoading();
-//        Клик для закрытия списка фильтров
-        filterLocation.click();
         return this;
     }
 

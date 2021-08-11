@@ -21,4 +21,18 @@ public class Helpers {
         }
         return dates.get(dates.size() - 1);
     }
+
+    public static boolean checkSubstringInString(String source, String substring){
+        int index = source.toLowerCase().lastIndexOf(substring.toLowerCase());
+
+        if(index == - 1){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public static int randomNumInRange(int start, int end){
+        return start + (int)(Math.random() * end);
+    }
 }
