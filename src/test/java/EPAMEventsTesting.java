@@ -39,13 +39,13 @@ public class EPAMEventsTesting {
         if (driver != null) {
             driver.quit();
             String stars = "";
-            for(int i = 0; i < 141; i++)
+            for (int i = 0; i < 141; i++)
                 stars += "*";
             logger.info("WebDriver закрыт\n" + stars);
         }
     }
 
-    @Test(testName = "Проверка счетчика предстоящих событий", enabled = false)
+    @Test(testName = "Проверка счетчика предстоящих событий", enabled = true)
     public void checkUpcomingEventsCounter() {
         EventsPage eventsPage = new EventsPage(driver);
         eventsPage
@@ -58,14 +58,14 @@ public class EPAMEventsTesting {
         Assert.assertEquals(realNumOfCards, counterValue);
     }
 
-    @Test(testName = "Проверка карточек прошедших событий", enabled = false)
-    public void checkPastCards(){
+    @Test(testName = "Проверка карточек прошедших событий", enabled = true)
+    public void checkPastCards() {
         EventsPage eventsPage = new EventsPage(driver);
         eventsPage
                 .goToPage()
                 .turnPastEvents()
                 .collectPastCards();
-        for(PastEventCard card:eventsPage.pastCards){
+        for (PastEventCard card : eventsPage.pastCards) {
             int cardNum = eventsPage.pastCards.indexOf(card) + 1;
             logger.info("Проверка что значение карточки " + cardNum + " не равно null");
             softAssert.assertNotNull(card.getName());
@@ -77,7 +77,7 @@ public class EPAMEventsTesting {
         softAssert.assertAll();
     }
 
-    @Test(testName = "Валидация дат предстоящих мероприятий", enabled = false)
+    @Test(testName = "Валидация дат предстоящих мероприятий", enabled = true)
     public void checkUpcomingEventsData() {
         EventsPage eventsPage = new EventsPage(driver);
         eventsPage
@@ -86,8 +86,8 @@ public class EPAMEventsTesting {
                 .collectUpcomingCards();
         Date today = Helpers.parseStringToDate("today");
         logger.info("Сравнение дат предстоящих событий с текуще датой: " + today);
-        for(UpcomingEventCard card:eventsPage.upcomingEventCards){
-            logger.info(String.format("Сравнение даты %s события %s с текущей",card.getDate(), card.getName()));
+        for (UpcomingEventCard card : eventsPage.upcomingEventCards) {
+            logger.info(String.format("Сравнение даты %s события %s с текущей", card.getDate(), card.getName()));
             boolean check = false;
             if (card.getDate().after(today))
                 check = true;
@@ -96,13 +96,13 @@ public class EPAMEventsTesting {
         softAssert.assertAll();
     }
 
-    @Test(testName = "Просмотр прошедших мероприятий в Канаде", enabled = false)
-    public void checkEventInCanada(){
+    @Test(testName = "Просмотр прошедших мероприятий в Канаде", enabled = true)
+    public void checkEventInCanada() {
         EventsPage eventsPage = new EventsPage(driver);
         eventsPage
                 .goToPage()
                 .turnPastEvents()
-                .filtration("Location","Canada");
+                .filtration(cfg.location(), "Canada");
         eventsPage.collectPastCards();
 
 //        Проверка счетчика
@@ -110,13 +110,13 @@ public class EPAMEventsTesting {
         logger.info("Количество карточек прошедших событий на странице: " + realNumOfCards);
         int counterValue = eventsPage.getCountOfPastEvents();
         logger.info("Сравнение значений");
-        softAssert.assertEquals(realNumOfCards,counterValue);
+        softAssert.assertEquals(realNumOfCards, counterValue);
 
 //        Проверка даты
         Date today = Helpers.parseStringToDate("today");
         logger.info("Сравнение дат предстоящих событий с текуще датой: " + today);
-        for(PastEventCard card:eventsPage.pastCards){
-            logger.info(String.format("Сравнение даты %s события %s с текущей",card.getDate(), card.getName()));
+        for (PastEventCard card : eventsPage.pastCards) {
+            logger.info(String.format("Сравнение даты %s события %s с текущей", card.getDate(), card.getName()));
             boolean check = false;
             if (card.getDate().before(today))
                 check = true;
@@ -127,7 +127,7 @@ public class EPAMEventsTesting {
     }
 
     @Test(testName = "Фильтрация докладов по категориям", enabled = true)
-    public void checkFilteringOfTalks(){
+    public void checkFilteringOfTalks() {
         String targetCategory = "Testing";
         String targetLocation = "Belarus";
         String targetLanguage = "ENGLISH";
@@ -135,30 +135,30 @@ public class EPAMEventsTesting {
         videoPage
                 .goToPage()
                 .clickMoreFilters()
-                .filtration("Category", targetCategory)
-                .filtration("Location",targetLocation)
-                .filtration("Language",targetLanguage);
+                .filtration(cfg.category(), targetCategory)
+                .filtration(cfg.location(), targetLocation)
+                .filtration(cfg.language(), targetLanguage);
 
-        int randomCardIndex = Helpers.randomNumInRange(1,videoPage.getNumOfCards());
+        int randomCardIndex = Helpers.randomNumInRange(1, videoPage.getNumOfCards());
         EventInfoPage eventInfoPage = videoPage.clickTalkCardChrome(randomCardIndex);
 //        EventInfoPage eventInfoPage = videoPage.clickTalkCardFirefox();
         logger.info("Переход к карточке №" + randomCardIndex);
 
         logger.info("Проверка наличия параметра запроса " + targetLocation);
         logger.debug("Получено значение: " + eventInfoPage.getLocationInfo());
-        boolean checkLocation = Helpers.checkSubstringInString(eventInfoPage.getLocationInfo(),targetLocation);
+        boolean checkLocation = Helpers.checkSubstringInString(eventInfoPage.getLocationInfo(), targetLocation);
         softAssert.assertTrue(checkLocation);
 
         logger.info("Проверка наличия параметра запроса " + targetLanguage);
         logger.debug("Получено значение: " + eventInfoPage.getLanguageInfo());
-        boolean checkLanguage = Helpers.checkSubstringInString(eventInfoPage.getLanguageInfo(),targetLanguage);
+        boolean checkLanguage = Helpers.checkSubstringInString(eventInfoPage.getLanguageInfo(), targetLanguage);
         softAssert.assertTrue(checkLanguage);
 
         logger.info("Проверка наличия параметра запроса " + targetCategory);
         boolean checkCategory = false;
-        for(WebElement tag:eventInfoPage.getCategories()){
+        for (WebElement tag : eventInfoPage.getCategories()) {
             logger.debug("Получено значение: " + tag.getText());
-            if(Helpers.checkSubstringInString(tag.getText(), targetCategory)){
+            if (Helpers.checkSubstringInString(tag.getText(), targetCategory)) {
                 checkCategory = true;
                 break;
             }
@@ -168,8 +168,8 @@ public class EPAMEventsTesting {
         softAssert.assertAll();
     }
 
-    @Test(testName = "Поиск докладов по ключевому слову",enabled = false)
-    public void checkSearching(){
+    @Test(testName = "Поиск докладов по ключевому слову", enabled = true)
+    public void checkSearching() {
         String searchingCriteria = "QA";
         VideoPage videoPage = new VideoPage(driver);
         videoPage
@@ -178,10 +178,10 @@ public class EPAMEventsTesting {
 
         List<WebElement> allNames = videoPage.collectTalksNames();
         logger.info("Собранные имена со страницы:");
-        for (WebElement talk:allNames){
+        for (WebElement talk : allNames) {
             String actual = talk.getText();
             logger.info(actual);
-            boolean check = Helpers.checkSubstringInString(actual,searchingCriteria);
+            boolean check = Helpers.checkSubstringInString(actual, searchingCriteria);
             softAssert.assertTrue(check);
         }
         logger.info("Сравнение полученных значений");

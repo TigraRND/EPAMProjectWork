@@ -14,14 +14,14 @@ public class PastEventCard extends AbstractCard {
         this.speakers = speakers;
     }
 
-    public void addSpeaker(EventSpeaker speaker){
+    public void addSpeaker(EventSpeaker speaker) {
         speakers.add(speaker);
     }
 
     @Override
     public String toString() {
         String stringOfSpeakers = "Спикеры: ";
-        for (EventSpeaker speaker:speakers){
+        for (EventSpeaker speaker : speakers) {
             stringOfSpeakers = stringOfSpeakers + speaker.toString() + "; ";
         }
         return super.toString() + "\n" + stringOfSpeakers;

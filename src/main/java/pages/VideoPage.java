@@ -21,10 +21,10 @@ public class VideoPage extends CommonElements {
 
     public VideoPage(WebDriver driver) {
         super(driver);
-        PageFactory.initElements(this.driver,this);
+        PageFactory.initElements(this.driver, this);
     }
 
-    public VideoPage goToPage(){
+    public VideoPage goToPage() {
         driver.get(URL);
         waitForLoading();
         acceptCookie();
@@ -32,22 +32,23 @@ public class VideoPage extends CommonElements {
         return this;
     }
 
-    public List<WebElement> collectTalksNames(){
+    public List<WebElement> collectTalksNames() {
         logger.info("Сбор названий Talks");
         return talksNames;
     }
 
-    public int getNumOfCards(){
+    public int getNumOfCards() {
         return talksNames.size();
     }
 
-    public EventInfoPage clickTalkCardChrome(int index){
-        By finalLocator = By.xpath(String.format(talkCardLinkSelectorChrome,index));
+    public EventInfoPage clickTalkCardChrome(int index) {
+        By finalLocator = By.xpath(String.format(talkCardLinkSelectorChrome, index));
         driver.findElement(finalLocator).click();
         waitForLoading();
         return new EventInfoPage(driver);
     }
-    public EventInfoPage clickTalkCardFirefox(){
+
+    public EventInfoPage clickTalkCardFirefox() {
         talkCardLinkFirefox.click();
         waitForLoading();
         return new EventInfoPage(driver);

@@ -43,12 +43,12 @@ public class EventsPage extends CommonElements {
     private final By eventRegInfoLocator = By.cssSelector("div.evnt-event-dates-table span:nth-child(2)");
     private final String speakersLocator = "(//div[contains(@class,'event-card')])[%d]/descendant::div[@class='evnt-speaker']";
 
-    public EventsPage(WebDriver driver){
+    public EventsPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(this.driver, this);
     }
 
-    public EventsPage goToPage(){
+    public EventsPage goToPage() {
         driver.get(URL);
         waitForLoading();
         acceptCookie();
@@ -56,19 +56,19 @@ public class EventsPage extends CommonElements {
         return this;
     }
 
-    public int getCountOfUpcomingEvents(){
+    public int getCountOfUpcomingEvents() {
         int counterValue = Integer.parseInt(upcomingEventsCounter.getText());
         logger.info("Количество предстоящих событий по счетчику: " + counterValue);
         return counterValue;
     }
 
-    public int getCountOfPastEvents(){
+    public int getCountOfPastEvents() {
         int counterValue = Integer.parseInt(pastEventsCounter.getText());
         logger.info("Количество прошедших событий по счетчику: " + counterValue);
         return counterValue;
     }
 
-    public EventsPage turnUpcomingEvents(){
+    public EventsPage turnUpcomingEvents() {
         waitForLoading();
         upcomingEventsBtn.click();
         waitForLoading();
@@ -76,7 +76,7 @@ public class EventsPage extends CommonElements {
         return this;
     }
 
-    public EventsPage turnPastEvents(){
+    public EventsPage turnPastEvents() {
         waitForLoading();
         pastEventsBtn.click();
         waitForLoading();
@@ -84,7 +84,7 @@ public class EventsPage extends CommonElements {
         return this;
     }
 
-    public EventsPage collectPastCards(){
+    public EventsPage collectPastCards() {
 //        Явное ожидание для гарантии загрузки всех карточек
         waitForLoading();
         logger.info("Старт процедуры сбора информации с карточек прошедших событий");
@@ -95,7 +95,7 @@ public class EventsPage extends CommonElements {
         List<WebElement> regs = driver.findElements(eventRegInfoLocator);
 
 //        Создаем список объектов карточек
-        for(int i = 0; i < names.size(); i++){
+        for (int i = 0; i < names.size(); i++) {
             PastEventCard card = new PastEventCard();
             card.setName(names.get(i).getText());
             card.setLang(langs.get(i).getText());
@@ -107,17 +107,17 @@ public class EventsPage extends CommonElements {
         }
 
 //        Добавляем спикеров
-        for(PastEventCard card:pastCards){
+        for (PastEventCard card : pastCards) {
 //            Строим локатор для выбора спикеров конкретного события
             int num = pastCards.indexOf(card) + 1;
-            String locator = String.format(speakersLocator,num);
+            String locator = String.format(speakersLocator, num);
 //            Собираем спикеров в список Web элементов
             List<WebElement> webSpeakers = driver.findElements(By.xpath(locator));
 //            Создаем объекты спикеров и добавляем их к объекту карточки события
-            for (WebElement speakerElem:webSpeakers){
+            for (WebElement speakerElem : webSpeakers) {
                 String name = speakerElem.getAttribute("data-name");
                 String job = speakerElem.getAttribute("data-job-title");
-                EventSpeaker speakerObj = new EventSpeaker(name,job);
+                EventSpeaker speakerObj = new EventSpeaker(name, job);
                 card.addSpeaker(speakerObj);
             }
         }
@@ -128,7 +128,7 @@ public class EventsPage extends CommonElements {
         return this;
     }
 
-    public EventsPage collectUpcomingCards(){
+    public EventsPage collectUpcomingCards() {
 //        Явное ожидание для гарантии загрузки всех карточек
         waitForLoading();
         logger.info("Старт процедуры сбора информации с карточек прошедших событий");
@@ -140,7 +140,7 @@ public class EventsPage extends CommonElements {
         List<WebElement> regs = driver.findElements(eventRegInfoLocator);
 
 //        Создаем список объектов карточек
-        for(int i = 0; i < names.size(); i++){
+        for (int i = 0; i < names.size(); i++) {
             UpcomingEventCard card = new UpcomingEventCard();
             card.setFormat(formats.get(i).getText());
             card.setName(names.get(i).getText());
@@ -148,9 +148,9 @@ public class EventsPage extends CommonElements {
 //            Переводим строку в дату
             Date date = Helpers.parseStringToDate(dates.get(i).getText());
             card.setDate(date);
-            try{
+            try {
                 card.setRegInfo(regs.get(i).getText());
-            }catch (IndexOutOfBoundsException e){
+            } catch (IndexOutOfBoundsException e) {
                 logger.warn("Нет значения для присваивания");
             }
             upcomingEventCards.add(card);

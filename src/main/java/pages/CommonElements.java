@@ -36,46 +36,46 @@ public abstract class CommonElements {
     private final String filterName = "//span[@class='evnt-filter-text'][text()='%s']";
     private final String filterValue = "//label[@data-value='%s']";
 
-    public CommonElements(WebDriver driver){
+    public CommonElements(WebDriver driver) {
         CommonElements.driver = driver;
-        PageFactory.initElements(this.driver,this);
+        PageFactory.initElements(this.driver, this);
     }
 
-//    Поиск элемента через явное ожидание
-    public WebElement getElement(By locator){
-        return new WebDriverWait(driver,3)
+    //    Поиск элемента через явное ожидание
+    public WebElement getElement(By locator) {
+        return new WebDriverWait(driver, 3)
                 .until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
-//    Ожидание загрузки страницы
-    public CommonElements waitForLoading(){
-        new WebDriverWait(driver,10)
+    //    Ожидание загрузки страницы
+    public CommonElements waitForLoading() {
+        new WebDriverWait(driver, 10)
                 .until(ExpectedConditions.invisibilityOfElementLocated(loader));
         return this;
     }
 
-    public EventsPage clickEventsBtn(){
+    public EventsPage clickEventsBtn() {
         eventsBtn.click();
         waitForLoading();
         logger.info("Переход на страницу Events");
         return new EventsPage(driver);
     }
 
-    public VideoPage clickVideoBtn(){
+    public VideoPage clickVideoBtn() {
         videoBtn.click();
         waitForLoading();
         logger.info("Переход на страницу с видео");
         return new VideoPage(driver);
     }
 
-    public CommonElements filtration(String name, String value){
+    public CommonElements filtration(String name, String value) {
         logger.info("Фильтрация по " + name + " со значением " + value);
 //        Построение локатора для списка фильтра
-        String locatorName = String.format(filterName,name);
+        String locatorName = String.format(filterName, name);
 //        Клик для раскрытия списка фильтров
         driver.findElement(By.xpath(locatorName)).click();
 //        Построение локатора для значения фильтра
-        String locatorValue = String.format(filterValue,value);
+        String locatorValue = String.format(filterValue, value);
 //        Клик на элемент списка
         getElement(By.xpath(locatorValue)).click();
 //        Ожидаем результатов фильтрации
@@ -85,13 +85,13 @@ public abstract class CommonElements {
         return this;
     }
 
-    public CommonElements clickMoreFilters(){
+    public CommonElements clickMoreFilters() {
         moreFiltersBtn.click();
         logger.info("Нажимаем кнопку More filters");
         return this;
     }
 
-    public CommonElements searching(String criteria){
+    public CommonElements searching(String criteria) {
         searchField.sendKeys(criteria);
 //        Использован Thread.sleep так как в java скрипте
 //        так же используется задержка после ввода прежде
@@ -105,7 +105,7 @@ public abstract class CommonElements {
         return this;
     }
 
-    public void acceptCookie(){
+    public void acceptCookie() {
         acceptCookieBtn.click();
     }
 }

@@ -7,7 +7,7 @@ import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
 
-public class EventInfoPage extends CommonElements{
+public class EventInfoPage extends CommonElements {
 
     @FindBy(xpath = "//div[contains(@class,'evnt-talk-details location')]/span")
     private WebElement locationInfo;
@@ -31,7 +31,7 @@ public class EventInfoPage extends CommonElements{
         return languageInfo.getText();
     }
 
-    public List<WebElement> getCategories(){
+    public List<WebElement> getCategories() {
         return categories;
     }
 }

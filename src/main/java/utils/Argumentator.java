@@ -5,7 +5,7 @@ import java.util.Properties;
 public class Argumentator {
     private final Properties properties;
 
-    public Argumentator(){
+    public Argumentator() {
         properties = System.getProperties();
     }
 

@@ -16,55 +16,55 @@ import org.openqa.selenium.opera.OperaOptions;
 
 public class WDFactory {
 
-    public static WebDriver getDriver(WDType type, MutableCapabilities options){
+    public static WebDriver getDriver(WDType type, MutableCapabilities options) {
         Logger logger = LogManager.getLogger(WDFactory.class);
-        switch (type){
+        switch (type) {
             case CHROME:
                 WebDriverManager.chromedriver().setup();
-                logger.info("WebDriver " + type +" поднят");
+                logger.info("WebDriver " + type + " поднят");
                 return new ChromeDriver((ChromeOptions) options);
             case FIREFOX:
                 WebDriverManager.firefoxdriver().setup();
-                logger.info("WebDriver " + type +" поднят");
-                return new FirefoxDriver((FirefoxOptions)options);
+                logger.info("WebDriver " + type + " поднят");
+                return new FirefoxDriver((FirefoxOptions) options);
             case OPERA:
                 WebDriverManager.operadriver().setup();
-                logger.info("WebDriver " + type +" поднят");
+                logger.info("WebDriver " + type + " поднят");
                 return new OperaDriver((OperaOptions) options);
             case IE:
                 WebDriverManager.iedriver();
-                logger.info("WebDriver " + type +" поднят");
+                logger.info("WebDriver " + type + " поднят");
                 return new InternetExplorerDriver((InternetExplorerOptions) options);
         }
         logger.error("Ошибка при создании WebDriver. Не указан тип.");
         return null;
     }
 
-    public static WebDriver getDriver(WDType type, String arguments){
+    public static WebDriver getDriver(WDType type, String arguments) {
         Logger logger = LogManager.getLogger(WDFactory.class);
         arguments = arguments.toLowerCase();
-        switch (type){
+        switch (type) {
             case CHROME:
                 WebDriverManager.chromedriver().setup();
-                logger.info("WebDriver " + type +" поднят");
+                logger.info("WebDriver " + type + " поднят");
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions.addArguments(arguments);
                 return new ChromeDriver(chromeOptions);
             case FIREFOX:
                 WebDriverManager.firefoxdriver().setup();
-                logger.info("WebDriver " + type +" поднят");
+                logger.info("WebDriver " + type + " поднят");
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
                 firefoxOptions.addArguments(arguments);
                 return new FirefoxDriver(firefoxOptions);
             case OPERA:
                 WebDriverManager.operadriver().setup();
-                logger.info("WebDriver " + type +" поднят");
+                logger.info("WebDriver " + type + " поднят");
                 OperaOptions operaOptions = new OperaOptions();
                 operaOptions.addArguments(arguments);
                 return new OperaDriver(operaOptions);
             case IE:
                 WebDriverManager.iedriver().setup();
-                logger.info("WebDriver " + type +" поднят");
+                logger.info("WebDriver " + type + " поднят");
                 InternetExplorerOptions ieOptions = new InternetExplorerOptions();
                 ieOptions.addCommandSwitches(arguments);
                 return new InternetExplorerDriver(ieOptions);
@@ -73,36 +73,36 @@ public class WDFactory {
         return null;
     }
 
-    public static WebDriver getDriver(WDType type){
+    public static WebDriver getDriver(WDType type) {
         Logger logger = LogManager.getLogger(WDFactory.class);
-        switch (type){
+        switch (type) {
             case CHROME:
                 WebDriverManager.chromedriver().setup();
-                logger.info("WebDriver " + type +" поднят");
+                logger.info("WebDriver " + type + " поднят");
                 return new ChromeDriver();
             case FIREFOX:
                 WebDriverManager.firefoxdriver().setup();
-                logger.info("WebDriver " + type +" поднят");
+                logger.info("WebDriver " + type + " поднят");
                 return new FirefoxDriver();
             case OPERA:
                 WebDriverManager.operadriver().setup();
-                logger.info("WebDriver " + type +" поднят");
+                logger.info("WebDriver " + type + " поднят");
                 return new OperaDriver();
             case IE:
                 WebDriverManager.iedriver();
-                logger.info("WebDriver " + type +" поднят");
+                logger.info("WebDriver " + type + " поднят");
                 return new InternetExplorerDriver();
         }
         logger.error("Ошибка при создании WebDriver. Не указан тип.");
         return null;
     }
 
-    public static WebDriver getDriver(String type){
-        if(type == null)
+    public static WebDriver getDriver(String type) {
+        if (type == null)
             return getDriver(WDType.CHROME);
-        try{
+        try {
             return getDriver(WDType.valueOf(type));
-        }catch(IllegalArgumentException ex){
+        } catch (IllegalArgumentException ex) {
             return getDriver(WDType.CHROME);
         }
     }
