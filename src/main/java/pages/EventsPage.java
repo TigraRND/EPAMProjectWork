@@ -51,6 +51,7 @@ public class EventsPage extends CommonElements {
     public EventsPage goToPage(){
         driver.get(URL);
         waitForLoading();
+        acceptCookie();
         logger.info("Переход на страницу Events");
         return this;
     }

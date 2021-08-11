@@ -24,6 +24,7 @@ public class VideoPage extends CommonElements {
     public VideoPage goToPage(){
         driver.get(URL);
         waitForLoading();
+        acceptCookie();
         logger.info("Переход на страницу Video");
         return this;
     }
@@ -34,7 +35,7 @@ public class VideoPage extends CommonElements {
     }
 
     public int getNumOfCards(){
-        return talksNames.size();
+        return talksNames.size() + 1;
     }
 
     public void clickTalkCard(int index){

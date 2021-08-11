@@ -134,15 +134,9 @@ public class EPAMEventsTesting {
                 .filtration("Category", "Testing")
                 .filtration("Location","Belarus")
                 .filtration("Language","ENGLISH");
-
-//        int numOfCards = videoPage.getNumOfCards();
-//        logger.debug("Количество карточек на экране: " + numOfCards);
-//        for(int i = 0; i < 50; i++){
-//            int gen = Helpers.randomNumInRange(0,numOfCards);
-//            logger.debug("Сгенерировано число: " + gen);
-//        }
-
-        videoPage.clickTalkCard(4);
+        int randomCardIndex = Helpers.randomNumInRange(1,videoPage.getNumOfCards());
+        videoPage.clickTalkCard(randomCardIndex);
+        logger.info("Переход к карточке №" + randomCardIndex);
     }
 
     @Test(testName = "Поиск докладов по ключевому слову",enabled = false)

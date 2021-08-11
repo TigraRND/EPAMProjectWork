@@ -30,6 +30,9 @@ public abstract class CommonElements {
     @FindBy(css = "input[placeholder='Search by Talk Name']")
     private WebElement searchField;
 
+    @FindBy(css = "button#onetrust-accept-btn-handler")
+    private WebElement acceptCookieBtn;
+
     private final String filterName = "//span[@class='evnt-filter-text'][text()='%s']";
     private final String filterValue = "//label[@data-value='%s']";
 
@@ -66,7 +69,7 @@ public abstract class CommonElements {
     }
 
     public CommonElements filtration(String name, String value){
-        logger.info("Фильтрация по " + filterName + " со значением " + filterValue);
+        logger.info("Фильтрация по " + name + " со значением " + value);
 //        Построение локатора для списка фильтра
         String locatorName = String.format(filterName,name);
 //        Клик для раскрытия списка фильтров
@@ -100,5 +103,9 @@ public abstract class CommonElements {
         }
         logger.info("Поиск по ключевому слову " + criteria);
         return this;
+    }
+
+    public void acceptCookie(){
+        acceptCookieBtn.click();
     }
 }
