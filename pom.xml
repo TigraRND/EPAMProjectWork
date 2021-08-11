@@ -21,7 +21,7 @@
         <owner.version>1.0.8</owner.version>
         <natty.version>0.12</natty.version>
         <allure.version>2.14.0</allure.version>
-        <aspectjweaver.version>1.9.7</aspectjweaver.version>
+        <aspectj.version>1.9.7</aspectj.version>
         <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
     </properties>
 
@@ -79,7 +79,7 @@
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
-            <version>${aspectjweaver.version}</version>
+            <version>${aspectj.version}</version>
         </dependency>
 
     </dependencies>
@@ -92,11 +92,36 @@
                 <version>${maven-surefire-plugin.version}</version>
                 <configuration>
                     <skipTests>false</skipTests>
+                    <argLine>-javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"</argLine>
+                    <systemProperties>
+                        <property>
+                            <name>allure.results.directory</name>
+                            <value>${project.build.directory}/allure-results</value>
+                        </property>
+                    </systemProperties>
                     <includes>
                         <include>EPAMEventsTesting.java</include>
                     </includes>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjweaver</artifactId>
+                        <version>${aspectj.version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
+
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>2.8</version>
+                <configuration>
+                    <reportVersion>2.7.0</reportVersion>
+                    <allureDownloadUrl>https://github.com/allure-framework/allure2/releases/download/2.7.0/allure-2.7.0.zip</allureDownloadUrl>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 
