@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -48,6 +49,7 @@ public class EventsPage extends CommonElements {
         PageFactory.initElements(this.driver, this);
     }
 
+    @Step("Переход на страницу Events")
     public EventsPage goToPage() {
         driver.get(URL);
         waitForLoading();
@@ -56,18 +58,21 @@ public class EventsPage extends CommonElements {
         return this;
     }
 
+    @Step("Получение количества предстоящих событий по счетчику")
     public int getCountOfUpcomingEvents() {
         int counterValue = Integer.parseInt(upcomingEventsCounter.getText());
         logger.info("Количество предстоящих событий по счетчику: " + counterValue);
         return counterValue;
     }
 
+    @Step("Получение количества прошедших событий по счетчику")
     public int getCountOfPastEvents() {
         int counterValue = Integer.parseInt(pastEventsCounter.getText());
         logger.info("Количество прошедших событий по счетчику: " + counterValue);
         return counterValue;
     }
 
+    @Step("Переключение на предстоящие события")
     public EventsPage turnUpcomingEvents() {
         waitForLoading();
         upcomingEventsBtn.click();
@@ -76,6 +81,7 @@ public class EventsPage extends CommonElements {
         return this;
     }
 
+    @Step("Переключение на прошедшие события")
     public EventsPage turnPastEvents() {
         waitForLoading();
         pastEventsBtn.click();
@@ -84,6 +90,7 @@ public class EventsPage extends CommonElements {
         return this;
     }
 
+    @Step("Сбор атрибутов с карточек прошедших событий")
     public EventsPage collectPastCards() {
 //        Явное ожидание для гарантии загрузки всех карточек
         waitForLoading();
@@ -128,6 +135,7 @@ public class EventsPage extends CommonElements {
         return this;
     }
 
+    @Step("Сбор атрибутов с карточек предстоящих событий")
     public EventsPage collectUpcomingCards() {
 //        Явное ожидание для гарантии загрузки всех карточек
         waitForLoading();

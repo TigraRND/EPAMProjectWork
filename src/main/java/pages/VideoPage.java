@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -24,6 +25,7 @@ public class VideoPage extends CommonElements {
         PageFactory.initElements(this.driver, this);
     }
 
+    @Step("Переход на страницу Video")
     public VideoPage goToPage() {
         driver.get(URL);
         waitForLoading();
@@ -32,15 +34,18 @@ public class VideoPage extends CommonElements {
         return this;
     }
 
+    @Step("Сбор названий бесед")
     public List<WebElement> collectTalksNames() {
-        logger.info("Сбор названий Talks");
+        logger.info("Сбор названий бесед");
         return talksNames;
     }
 
+    @Step("Получение количества карточек бесед")
     public int getNumOfCards() {
         return talksNames.size();
     }
 
+    @Step("Клик по карточке номер {index}")
     public EventInfoPage clickTalkCardChrome(int index) {
         By finalLocator = By.xpath(String.format(talkCardLinkSelectorChrome, index));
         driver.findElement(finalLocator).click();

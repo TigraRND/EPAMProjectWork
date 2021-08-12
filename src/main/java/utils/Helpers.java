@@ -2,7 +2,12 @@ package utils;
 
 import com.joestelmach.natty.DateGroup;
 import com.joestelmach.natty.Parser;
+import io.qameta.allure.Allure;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
 
+import java.io.ByteArrayInputStream;
 import java.util.Date;
 import java.util.List;
 
@@ -34,5 +39,10 @@ public class Helpers {
 
     public static int randomNumInRange(int start, int end) {
         return start + (int) (Math.random() * end);
+    }
+
+    //    Снятие скриншота для Allure отчета
+    public static void takeScreenshot(String name, WebDriver driver){
+        Allure.addAttachment(name, new ByteArrayInputStream(((TakesScreenshot)driver).getScreenshotAs(OutputType.BYTES)));
     }
 }
