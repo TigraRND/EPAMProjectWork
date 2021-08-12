@@ -1,3 +1,5 @@
+import io.qameta.allure.Description;
+import io.qameta.allure.Feature;
 import io.qameta.allure.Step;
 import org.aeonbits.owner.ConfigFactory;
 import org.apache.logging.log4j.LogManager;
@@ -31,14 +33,14 @@ public class EPAMEventsTesting {
 
     @BeforeMethod
     @Step("Запуск и настройка WebDriver")
-    public void startUp() {
+    public void settUp() {
         driver = WDFactory.getDriver(arg.getBrowser());
         driver.manage().window().maximize();
     }
 
     @AfterMethod
     @Step("Закрытие WebDriver")
-    public void shutDown() {
+    public void tearDown() {
         if (driver != null) {
             driver.quit();
             String stars = "";
@@ -48,7 +50,10 @@ public class EPAMEventsTesting {
         }
     }
 
-    @Test(testName = "Проверка счетчика предстоящих событий", enabled = true)
+    @Test(testName = "Просмотр предстоящих мероприятий", enabled = true)
+    @Feature("Счетчик событий")
+    @Description(value = "Тест проверяет что значение счетчика предстоящих событий соответствует реальному " +
+            "количеству отображаемых карточек на экране")
     public void checkUpcomingEventsCounter() {
         EventsPage eventsPage = new EventsPage(driver);
         eventsPage
@@ -61,7 +66,10 @@ public class EPAMEventsTesting {
         Assert.assertEquals(realNumOfCards, counterValue);
     }
 
-    @Test(testName = "Проверка карточек прошедших событий", enabled = true)
+    @Test(testName = "Просмотр карточек мероприятий", enabled = true)
+    @Feature("Атрибуты карточки")
+    @Description(value = "Тест проверяет что в прошедших событиях отображаются карточки у которых " +
+            "не пустые атрибуты: язык, название, дата, регистрация и спикеры")
     public void checkPastCards() {
         EventsPage eventsPage = new EventsPage(driver);
         eventsPage
@@ -81,18 +89,21 @@ public class EPAMEventsTesting {
     }
 
     @Test(testName = "Валидация дат предстоящих мероприятий", enabled = true)
+    @Feature("Отображение карточек предстоящих событий")
+    @Description("Тест проверяет что у предстоящих событий дата проведения больше чем у текущей " +
+            "даты минус один день")
     public void checkUpcomingEventsData() {
         EventsPage eventsPage = new EventsPage(driver);
         eventsPage
                 .goToPage()
                 .turnUpcomingEvents()
                 .collectUpcomingCards();
-        Date today = Helpers.parseStringToDate("today");
-        logger.info("Сравнение дат предстоящих событий с текуще датой: " + today);
+        Date yesterday = Helpers.parseStringToDate("yesterday");
+        logger.info("Сравнение дат предстоящих событий с текуще датой: " + yesterday);
         for (UpcomingEventCard card : eventsPage.upcomingEventCards) {
             logger.info(String.format("Сравнение даты %s события %s с текущей", card.getDate(), card.getName()));
             boolean check = false;
-            if (card.getDate().after(today))
+            if (card.getDate().after(yesterday))
                 check = true;
             softAssert.assertTrue(check, "Дата события не позже текущей");
         }
@@ -100,6 +111,9 @@ public class EPAMEventsTesting {
     }
 
     @Test(testName = "Просмотр прошедших мероприятий в Канаде", enabled = true)
+    @Feature("Фильтрация")
+    @Description("Тест фильтрует прошедшие события по локации Канада, затем проверяет значение счетчика событий " +
+            "и что даты событий меньше текущей")
     public void checkEventInCanada() {
         EventsPage eventsPage = new EventsPage(driver);
         eventsPage
@@ -125,11 +139,14 @@ public class EPAMEventsTesting {
                 check = true;
             softAssert.assertTrue(check, "Дата события не позже текущей");
         }
-
         softAssert.assertAll();
     }
 
     @Test(testName = "Фильтрация докладов по категориям", enabled = true)
+    @Feature("Фильтрация")
+    @Description("Тест использует несколько фильтров на странице Talks Library после чего выбирает произвольную " +
+            "карточку среди отфильтрованных, заходит в нее и проверяет что ее атрибуты соответствуют критериям " +
+            "фильтрации")
     public void checkFilteringOfTalks() {
         String targetCategory = "Testing";
         String targetLocation = "Belarus";
@@ -172,6 +189,9 @@ public class EPAMEventsTesting {
     }
 
     @Test(testName = "Поиск докладов по ключевому слову", enabled = true)
+    @Feature("Поиск по ключевому слову")
+    @Description("Тест использует поиск по ключевому слову QA на странице Talks Library, затем собирает названия " +
+            "найденных карточек и проверяет что в названиях присутствует ключевое слово поиска")
     public void checkSearching() {
         String searchingCriteria = "QA";
         VideoPage videoPage = new VideoPage(driver);
