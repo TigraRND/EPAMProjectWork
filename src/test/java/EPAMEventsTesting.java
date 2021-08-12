@@ -64,6 +64,7 @@ public class EPAMEventsTesting {
         int counterValue = eventsPage.getCountOfUpcomingEvents();
         logger.info("Сравнение значений");
         Assert.assertEquals(realNumOfCards, counterValue);
+        Helpers.takeScreenshot("Количество предстоящих событий",driver);
     }
 
     @Test(testName = "Просмотр карточек мероприятий", enabled = true)
@@ -86,6 +87,7 @@ public class EPAMEventsTesting {
             softAssert.assertNotNull(card.getSpeakers());
         }
         softAssert.assertAll();
+        Helpers.takeScreenshot("Карточки прошедших событий",driver);
     }
 
     @Test(testName = "Валидация дат предстоящих мероприятий", enabled = true)
@@ -108,6 +110,7 @@ public class EPAMEventsTesting {
             softAssert.assertTrue(check, "Дата события не позже текущей");
         }
         softAssert.assertAll();
+        Helpers.takeScreenshot("Предстоящие события",driver);
     }
 
     @Test(testName = "Просмотр прошедших мероприятий в Канаде", enabled = true)
@@ -140,6 +143,8 @@ public class EPAMEventsTesting {
             softAssert.assertTrue(check, "Дата события не позже текущей");
         }
         softAssert.assertAll();
+//        Снятие скриншота
+        Helpers.takeScreenshot("События в Канаде",driver);
     }
 
     @Test(testName = "Фильтрация докладов по категориям", enabled = true)
@@ -158,11 +163,13 @@ public class EPAMEventsTesting {
                 .filtration(cfg.category(), targetCategory)
                 .filtration(cfg.location(), targetLocation)
                 .filtration(cfg.language(), targetLanguage);
+        Helpers.takeScreenshot("Результаты фильтрации",driver);
 
         int randomCardIndex = Helpers.randomNumInRange(1, videoPage.getNumOfCards());
         EventInfoPage eventInfoPage = videoPage.clickTalkCardChrome(randomCardIndex);
 //        EventInfoPage eventInfoPage = videoPage.clickTalkCardFirefox();
         logger.info("Переход к карточке №" + randomCardIndex);
+        Helpers.takeScreenshot("Произвольно выбранная карточка",driver);
 
         logger.info("Проверка наличия параметра запроса " + targetLocation);
         logger.debug("Получено значение: " + eventInfoPage.getLocationInfo());
@@ -198,6 +205,7 @@ public class EPAMEventsTesting {
         videoPage
                 .goToPage()
                 .searching(searchingCriteria);
+        Helpers.takeScreenshot("Результаты поиска",driver);
 
         List<WebElement> allNames = videoPage.collectTalksNames();
         logger.info("Собранные имена со страницы:");
