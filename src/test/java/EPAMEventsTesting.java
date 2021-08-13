@@ -31,15 +31,13 @@ public class EPAMEventsTesting {
     private final Argumentator arg = new Argumentator();
     private final SoftAssert softAssert = new SoftAssert();
 
-    @BeforeMethod
-    @Step("Запуск и настройка WebDriver")
+    @BeforeMethod(description = "Запуск и настройка WebDriver")
     public void settUp() {
         driver = WDFactory.getDriver(arg.getBrowser());
         driver.manage().window().maximize();
     }
 
-    @AfterMethod
-    @Step("Закрытие WebDriver")
+    @AfterMethod(description = "Закрытие WebDriver")
     public void tearDown() {
         if (driver != null) {
             driver.quit();
@@ -50,7 +48,9 @@ public class EPAMEventsTesting {
         }
     }
 
-    @Test(testName = "Просмотр предстоящих мероприятий", enabled = true)
+    @Test(enabled = true,
+            testName = "Просмотр предстоящих мероприятий",
+            description = "Просмотр предстоящих мероприятий")
     @Feature("Счетчик событий")
     @Description(value = "Тест проверяет что значение счетчика предстоящих событий соответствует реальному " +
             "количеству отображаемых карточек на экране")
@@ -67,7 +67,9 @@ public class EPAMEventsTesting {
         Helpers.takeScreenshot("Количество предстоящих событий",driver);
     }
 
-    @Test(testName = "Просмотр карточек мероприятий", enabled = true)
+    @Test(enabled = true,
+            testName = "Просмотр карточек мероприятий",
+            description = "Просмотр карточек мероприятий")
     @Feature("Атрибуты карточки")
     @Description(value = "Тест проверяет что в прошедших событиях отображаются карточки у которых " +
             "не пустые атрибуты: язык, название, дата, регистрация и спикеры")
@@ -90,7 +92,9 @@ public class EPAMEventsTesting {
         Helpers.takeScreenshot("Карточки прошедших событий",driver);
     }
 
-    @Test(testName = "Валидация дат предстоящих мероприятий", enabled = true)
+    @Test(enabled = true,
+            testName = "Валидация дат предстоящих мероприятий",
+            description = "Валидация дат предстоящих мероприятий")
     @Feature("Отображение карточек предстоящих событий")
     @Description("Тест проверяет что у предстоящих событий дата проведения больше чем у текущей " +
             "даты минус один день")
@@ -113,7 +117,9 @@ public class EPAMEventsTesting {
         Helpers.takeScreenshot("Предстоящие события",driver);
     }
 
-    @Test(testName = "Просмотр прошедших мероприятий в Канаде", enabled = true)
+    @Test(enabled = true,
+            testName = "Просмотр прошедших мероприятий в Канаде",
+            description = "Просмотр прошедших мероприятий в Канаде")
     @Feature("Фильтрация")
     @Description("Тест фильтрует прошедшие события по локации Канада, затем проверяет значение счетчика событий " +
             "и что даты событий меньше текущей")
@@ -147,7 +153,9 @@ public class EPAMEventsTesting {
         Helpers.takeScreenshot("События в Канаде",driver);
     }
 
-    @Test(testName = "Фильтрация докладов по категориям", enabled = true)
+    @Test(enabled = true,
+            testName = "Фильтрация докладов по категориям",
+            description = "Фильтрация докладов по категориям")
     @Feature("Фильтрация")
     @Description("Тест использует несколько фильтров на странице Talks Library после чего выбирает произвольную " +
             "карточку среди отфильтрованных, заходит в нее и проверяет что ее атрибуты соответствуют критериям " +
@@ -195,7 +203,9 @@ public class EPAMEventsTesting {
         softAssert.assertAll();
     }
 
-    @Test(testName = "Поиск докладов по ключевому слову", enabled = true)
+    @Test(enabled = true,
+            testName = "Поиск докладов по ключевому слову",
+            description = "Поиск докладов по ключевому слову")
     @Feature("Поиск по ключевому слову")
     @Description("Тест использует поиск по ключевому слову QA на странице Talks Library, затем собирает названия " +
             "найденных карточек и проверяет что в названиях присутствует ключевое слово поиска")
