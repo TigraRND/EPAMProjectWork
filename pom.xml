@@ -17,7 +17,7 @@
         <testng.version>7.4.0</testng.version>
         <selenium.version>3.141.59</selenium.version>
         <webdrivermanager.version>4.4.3</webdrivermanager.version>
-        <log4j.version>2.14.1</log4j.version>
+        <log4j.version>2.9.1</log4j.version>
         <owner.version>1.0.12</owner.version>
         <natty.version>0.13</natty.version>
         <allure.version>2.14.0</allure.version>
