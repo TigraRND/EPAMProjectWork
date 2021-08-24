@@ -112,8 +112,10 @@ public class WDFactory {
         switch (code){
             case 1:
                 logger.info("WebDriver {} поднят", type);
+                break;
             case -1:
                 logger.error("Ошибка при создании WebDriver. Не указан тип.");
+                break;
         }
     }
 }
