@@ -105,9 +105,7 @@ public class EPAMEventsTesting {
         logger.info("Сравнение дат предстоящих событий с текуще датой: {}", yesterday);
         for (UpcomingEventCard card : eventsPage.upcomingEventCards) {
             logger.info("Сравнение даты \"{}\" события \"{}\" с текущей датой", card.getDate(), card.getName());
-            boolean check = false;
-            if (card.getDate().after(yesterday))
-                check = true;
+            boolean check = card.getDate().after(yesterday);
             softAssert.assertTrue(check, "Дата события не позже текущей");
         }
         softAssert.assertAll();
@@ -139,9 +137,7 @@ public class EPAMEventsTesting {
         logger.info("Сравнение дат предстоящих событий с текуще датой: {}", today);
         for (PastEventCard card : eventsPage.pastCards) {
             logger.info("Сравнение даты \"{}\" события \"{}\" с текущей датой", card.getDate(), card.getName());
-            boolean check = false;
-            if (card.getDate().before(today))
-                check = true;
+            boolean check = card.getDate().before(today);
             softAssert.assertTrue(check, "Дата события не позже текущей");
         }
         softAssert.assertAll();
