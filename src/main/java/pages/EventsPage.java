@@ -61,14 +61,14 @@ public class EventsPage extends CommonElements {
     @Step("Получение количества предстоящих событий по счетчику")
     public int getCountOfUpcomingEvents() {
         int counterValue = Integer.parseInt(upcomingEventsCounter.getText());
-        logger.info("Количество предстоящих событий по счетчику: " + counterValue);
+        logger.info("Количество предстоящих событий по счетчику: {}", counterValue);
         return counterValue;
     }
 
     @Step("Получение количества прошедших событий по счетчику")
     public int getCountOfPastEvents() {
         int counterValue = Integer.parseInt(pastEventsCounter.getText());
-        logger.info("Количество прошедших событий по счетчику: " + counterValue);
+        logger.info("Количество прошедших событий по счетчику: {}", counterValue);
         return counterValue;
     }
 

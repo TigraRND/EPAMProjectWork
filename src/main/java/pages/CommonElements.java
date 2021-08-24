@@ -73,7 +73,7 @@ public abstract class CommonElements {
 
     @Step("Фильтрация по {name} со значением {value}")
     public CommonElements filtration(String name, String value) {
-        logger.info("Фильтрация по " + name + " со значением " + value);
+        logger.info("Фильтрация по {} со значением {}", name, value);
 //        Построение локатора для списка фильтра
         String locatorName = String.format(filterName, name);
 //        Клик для раскрытия списка фильтров
@@ -107,7 +107,7 @@ public abstract class CommonElements {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        logger.info("Поиск по ключевому слову " + criteria);
+        logger.info("Поиск по ключевому слову {}", criteria);
         return this;
     }
 

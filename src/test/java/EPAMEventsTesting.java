@@ -44,12 +44,11 @@ public class EPAMEventsTesting {
             String stars = "";
             for (int i = 0; i < 141; i++)
                 stars += "*";
-            logger.info("WebDriver закрыт\n" + stars);
+            logger.info("WebDriver закрыт\n{}", stars);
         }
     }
 
-    @Test(enabled = true,
-            testName = "Просмотр предстоящих мероприятий",
+    @Test(testName = "Просмотр предстоящих мероприятий",
             description = "Просмотр предстоящих мероприятий")
     @Feature("Счетчик событий")
     @Description(value = "Тест проверяет что значение счетчика предстоящих событий соответствует реальному " +
@@ -60,15 +59,14 @@ public class EPAMEventsTesting {
                 .goToPage()
                 .collectUpcomingCards();
         int realNumOfCards = eventsPage.upcomingEventCards.size();
-        logger.info("Количество карточек предстоящих событий на странице: " + realNumOfCards);
+        logger.info("Количество карточек предстоящих событий на странице: {}", realNumOfCards);
         int counterValue = eventsPage.getCountOfUpcomingEvents();
         logger.info("Сравнение значений");
         Assert.assertEquals(realNumOfCards, counterValue);
         Helpers.takeScreenshot("Количество предстоящих событий",driver);
     }
 
-    @Test(enabled = true,
-            testName = "Просмотр карточек мероприятий",
+    @Test(testName = "Просмотр карточек мероприятий",
             description = "Просмотр карточек мероприятий")
     @Feature("Атрибуты карточки")
     @Description(value = "Тест проверяет что в прошедших событиях отображаются карточки у которых " +
@@ -81,7 +79,7 @@ public class EPAMEventsTesting {
                 .collectPastCards();
         for (PastEventCard card : eventsPage.pastCards) {
             int cardNum = eventsPage.pastCards.indexOf(card) + 1;
-            logger.info("Проверка что значение карточки " + cardNum + " не равно null");
+            logger.info("Проверка что значение карточки {} не равно null", cardNum);
             softAssert.assertNotNull(card.getName());
             softAssert.assertNotNull(card.getLang());
             softAssert.assertNotNull(card.getDate());
@@ -92,8 +90,7 @@ public class EPAMEventsTesting {
         Helpers.takeScreenshot("Карточки прошедших событий",driver);
     }
 
-    @Test(enabled = true,
-            testName = "Валидация дат предстоящих мероприятий",
+    @Test(testName = "Валидация дат предстоящих мероприятий",
             description = "Валидация дат предстоящих мероприятий")
     @Feature("Отображение карточек предстоящих событий")
     @Description("Тест проверяет что у предстоящих событий дата проведения больше чем у текущей " +
@@ -105,9 +102,9 @@ public class EPAMEventsTesting {
                 .turnUpcomingEvents()
                 .collectUpcomingCards();
         Date yesterday = Helpers.parseStringToDate("yesterday");
-        logger.info("Сравнение дат предстоящих событий с текуще датой: " + yesterday);
+        logger.info("Сравнение дат предстоящих событий с текуще датой: {}", yesterday);
         for (UpcomingEventCard card : eventsPage.upcomingEventCards) {
-            logger.info(String.format("Сравнение даты %s события %s с текущей", card.getDate(), card.getName()));
+            logger.info("Сравнение даты \"{}\" события \"{}\" с текущей датой", card.getDate(), card.getName());
             boolean check = false;
             if (card.getDate().after(yesterday))
                 check = true;
@@ -117,8 +114,7 @@ public class EPAMEventsTesting {
         Helpers.takeScreenshot("Предстоящие события",driver);
     }
 
-    @Test(enabled = true,
-            testName = "Просмотр прошедших мероприятий в Канаде",
+    @Test(testName = "Просмотр прошедших мероприятий в Канаде",
             description = "Просмотр прошедших мероприятий в Канаде")
     @Feature("Фильтрация")
     @Description("Тест фильтрует прошедшие события по локации Канада, затем проверяет значение счетчика событий " +
@@ -133,16 +129,16 @@ public class EPAMEventsTesting {
 
 //        Проверка счетчика
         int realNumOfCards = eventsPage.pastCards.size();
-        logger.info("Количество карточек прошедших событий на странице: " + realNumOfCards);
+        logger.info("Количество карточек прошедших событий на странице: {}", realNumOfCards);
         int counterValue = eventsPage.getCountOfPastEvents();
         logger.info("Сравнение значений");
         softAssert.assertEquals(realNumOfCards, counterValue);
 
 //        Проверка даты
         Date today = Helpers.parseStringToDate("today");
-        logger.info("Сравнение дат предстоящих событий с текуще датой: " + today);
+        logger.info("Сравнение дат предстоящих событий с текуще датой: {}", today);
         for (PastEventCard card : eventsPage.pastCards) {
-            logger.info(String.format("Сравнение даты %s события %s с текущей", card.getDate(), card.getName()));
+            logger.info("Сравнение даты \"{}\" события \"{}\" с текущей датой", card.getDate(), card.getName());
             boolean check = false;
             if (card.getDate().before(today))
                 check = true;
@@ -153,8 +149,7 @@ public class EPAMEventsTesting {
         Helpers.takeScreenshot("События в Канаде",driver);
     }
 
-    @Test(enabled = true,
-            testName = "Фильтрация докладов по категориям",
+    @Test(testName = "Фильтрация докладов по категориям",
             description = "Фильтрация докладов по категориям")
     @Feature("Фильтрация")
     @Description("Тест использует несколько фильтров на странице Talks Library после чего выбирает произвольную " +
@@ -176,23 +171,23 @@ public class EPAMEventsTesting {
         int randomCardIndex = Helpers.randomNumInRange(1, videoPage.getNumOfCards());
         EventInfoPage eventInfoPage = videoPage.clickTalkCardChrome(randomCardIndex);
 //        EventInfoPage eventInfoPage = videoPage.clickTalkCardFirefox();
-        logger.info("Переход к карточке №" + randomCardIndex);
+        logger.info("Переход к карточке №{}", randomCardIndex);
         Helpers.takeScreenshot("Произвольно выбранная карточка",driver);
 
-        logger.info("Проверка наличия параметра запроса " + targetLocation);
-        logger.debug("Получено значение: " + eventInfoPage.getLocationInfo());
+        logger.info("Проверка наличия параметра запроса {}", targetLocation);
+        logger.debug("Получено значение: {}", eventInfoPage.getLocationInfo());
         boolean checkLocation = Helpers.checkSubstringInString(eventInfoPage.getLocationInfo(), targetLocation);
         softAssert.assertTrue(checkLocation);
 
-        logger.info("Проверка наличия параметра запроса " + targetLanguage);
-        logger.debug("Получено значение: " + eventInfoPage.getLanguageInfo());
+        logger.info("Проверка наличия параметра запроса {}", targetLanguage);
+        logger.debug("Получено значение: {}", eventInfoPage.getLanguageInfo());
         boolean checkLanguage = Helpers.checkSubstringInString(eventInfoPage.getLanguageInfo(), targetLanguage);
         softAssert.assertTrue(checkLanguage);
 
-        logger.info("Проверка наличия параметра запроса " + targetCategory);
+        logger.info("Проверка наличия параметра запроса {}", targetCategory);
         boolean checkCategory = false;
         for (WebElement tag : eventInfoPage.getCategories()) {
-            logger.debug("Получено значение: " + tag.getText());
+            logger.debug("Получено значение: {}", tag.getText());
             if (Helpers.checkSubstringInString(tag.getText(), targetCategory)) {
                 checkCategory = true;
                 break;
@@ -203,8 +198,7 @@ public class EPAMEventsTesting {
         softAssert.assertAll();
     }
 
-    @Test(enabled = true,
-            testName = "Поиск докладов по ключевому слову",
+    @Test(testName = "Поиск докладов по ключевому слову",
             description = "Поиск докладов по ключевому слову")
     @Feature("Поиск по ключевому слову")
     @Description("Тест использует поиск по ключевому слову QA на странице Talks Library, затем собирает названия " +
