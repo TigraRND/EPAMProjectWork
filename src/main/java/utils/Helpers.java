@@ -29,12 +29,7 @@ public class Helpers {
 
     public static boolean checkSubstringInString(String source, String substring) {
         int index = source.toLowerCase().lastIndexOf(substring.toLowerCase());
-
-        if (index == -1) {
-            return false;
-        } else {
-            return true;
-        }
+        return index != -1;
     }
 
     public static int randomNumInRange(int start, int end) {

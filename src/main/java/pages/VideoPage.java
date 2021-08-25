@@ -15,10 +15,7 @@ public class VideoPage extends CommonElements {
     @FindBy(css = "div.evnt-talk-name span")
     private List<WebElement> talksNames;
 
-    @FindBy(xpath = "//div[@class='evnt-talk-card']")
-    private WebElement talkCardLinkFirefox;
-
-    private String talkCardLinkSelectorChrome = "(//div[@class='evnt-talk-card']/a)[%d]";
+    private String talkCardLinkSelector = "(//div[@class='evnt-talk-card']/a)[%d]";
 
     public VideoPage(WebDriver driver) {
         super(driver);
@@ -47,14 +44,8 @@ public class VideoPage extends CommonElements {
 
     @Step("Клик по карточке номер {index}")
     public EventInfoPage clickTalkCardChrome(int index) {
-        By finalLocator = By.xpath(String.format(talkCardLinkSelectorChrome, index));
+        By finalLocator = By.xpath(String.format(talkCardLinkSelector, index));
         driver.findElement(finalLocator).click();
-        waitForLoading();
-        return new EventInfoPage(driver);
-    }
-
-    public EventInfoPage clickTalkCardFirefox() {
-        talkCardLinkFirefox.click();
         waitForLoading();
         return new EventInfoPage(driver);
     }
